@@ -25,8 +25,6 @@ def connection():
     return conn
 
 
-number_of_instances = 1
-
 response = client.describe_auto_scaling_groups(
     AutoScalingGroupNames=[
         'imagey_autoscaling_group',
