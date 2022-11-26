@@ -1,0 +1,261 @@
+{% extends 'template.html' %} {% block content %}
+<div>
+    <div
+        class="text-center"
+        style="
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        "
+    >
+        <span>
+            <canvas
+                id="workers-chart"
+                style="width: 720px; height: 420px"
+            ></canvas>
+        </span>
+        <span style="padding: 45px">
+            <canvas
+                id="items-chart"
+                style="width: 720px; height: 420px"
+            ></canvas>
+        </span>
+    </div>
+
+    <div
+        class="text-center"
+        style="
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        "
+    >
+        <span>
+            <canvas
+                id="in-cache-items-chart"
+                style="width: 720px; height: 420px"
+            ></canvas>
+        </span>
+        <span style="padding: 45px">
+            <canvas
+                id="requests-chart"
+                style="width: 720px; height: 420px"
+            ></canvas>
+        </span>
+    </div>
+
+    <div
+        class="text-center"
+        style="
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        "
+    >
+        <div
+            class="text-center"
+            style="
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            "
+        >
+            <span style="padding: 45px">
+                <canvas
+                    id="hit-miss-chart"
+                    style="width: 820px; height: 420px"
+                ></canvas>
+            </span>
+        </div>
+    </div>
+</div>
+
+<!--////////////////////////////////////////////////////////////////-->
+
+<script>
+    var xValues = [
+        0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16,
+        17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
+    ];
+    var yValues = [
+        0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70,
+        75, 80, 85, 90, 95, 100,
+    ];
+
+    new Chart("workers-chart", {
+        type: "line",
+        data: {
+            labels: xValues,
+
+            datasets: [
+                {
+                    data: [
+                        25, 27, 30, 14, 15, 10, 5, 20, 75, 24, 66,
+                        84, 90, 66, 57, 24, 16, 85, 49, 54,
+                    ],
+                    borderColor: "red",
+                    fill: false,
+                    name: "Number Of Workers",
+                },
+            ],
+        },
+        options: {
+            legend: { display: false },
+            title: {
+                display: true,
+                text: "Number of Workers",
+            },
+        },
+    });
+</script>
+
+<script>
+    var xValues = [
+        0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16,
+        17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
+    ];
+    var yValues = [
+        0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130,
+        140, 150, 160, 170, 180, 190, 200,
+    ];
+    new Chart("items-chart", {
+        type: "line",
+        data: {
+            labels: xValues,
+            datasets: [
+                {
+                    data: [
+                        15, 10, 5, 20, 18, 14, 14, 15, 10, 5, 20,
+                        18, 19, 23, 25, 27, 30, 14, 15, 10, 5, 20,
+                        75, 24, 66, 84, 90, 150,
+                    ],
+                    borderColor: "green",
+                    fill: false,
+                },
+            ],
+        },
+        options: {
+            legend: { display: false },
+            title: {
+                display: true,
+                text: "Number of items",
+            },
+        },
+    });
+</script>
+
+<script>
+    var xValues = [
+        0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16,
+        17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
+    ];
+    var yValues = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
+    new Chart("in-cache-items-chart", {
+        type: "line",
+        data: {
+            labels: xValues,
+            datasets: [
+                {
+                    data: [
+                        0, 13, 14, 15, 10, 5, 20, 18, 14, 14, 15,
+                        10, 5, 20, 18, 19, 23, 25, 27, 30, 14, 15,
+                        10, 5, 20, 18,
+                    ],
+                    borderColor: "orange",
+                    fill: false,
+                },
+            ],
+        },
+        options: {
+            legend: { display: false },
+            title: {
+                display: true,
+                text: "Number Of Item In Cashe",
+            },
+        },
+    });
+</script>
+
+<script>
+    var xValues = [
+        0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16,
+        17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
+    ];
+    var yValues = [
+        0, 10, 200, 300, 400, 500, 600, 700, 800, 900, 1000,
+    ];
+    new Chart("requests-chart", {
+        type: "line",
+        data: {
+            labels: xValues,
+            datasets: [
+                {
+                    data: [
+                        10, 20, 75, 24, 66, 84, 90, 150, 148, 168,
+                        176, 268, 654, 148, 598, 742, 120, 20, 75,
+                        24, 66, 84, 90, 150, 148, 168, 900, 950,
+                    ],
+                    borderColor: "blue",
+                    fill: false,
+                },
+            ],
+        },
+        options: {
+            legend: { display: false },
+            title: {
+                display: true,
+                text: "Number Of Requests",
+            },
+        },
+    });
+</script>
+
+<script>
+    var xValues = [
+        0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16,
+        17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
+    ];
+    var yValues = [
+        0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130,
+        140, 150, 160, 170, 180, 190, 200,
+    ];
+    new Chart("hit-miss-chart", {
+        type: "line",
+
+        data: {
+            labels: xValues,
+            datasets: [
+                {
+                    label: "Miss Rate",
+                    data: [
+                        5, 10, 20, 15, 23, 24, 55, 95, 23, 66, 160,
+                        190, 32, 44, 66, 87, 92, 24, 65, 84, 46,
+                    ],
+                    borderColor: "red",
+                    fill: false,
+                    name: "Miss",
+                },
+                {
+                    label: "Hit Rate",
+                    data: [
+                        5, 10, 22, 32, 11, 44, 44, 66, 87, 92, 24,
+                        65, 84, 46, 55, 95, 23, 66, 160, 190, 44,
+                    ],
+                    borderColor: "green",
+                    fill: false,
+                    name: "Hit",
+                },
+            ],
+        },
+        options: {
+            legend: {
+                display: true,
+            },
+            title: {
+                display: true,
+                text: "Hit Rate , Miss Rate",
+            },
+        },
+    });
+</script>
+{% endblock %}

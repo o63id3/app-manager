@@ -1,0 +1,8 @@
+.vscode
+.idea
+venv
+__pycache__
+test/.pytest_cache
+.pytest_cache
+./aws_keys.py
+db.py

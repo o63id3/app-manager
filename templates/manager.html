@@ -1,0 +1,202 @@
+{% extends 'template.html' %} {% block content %}
+<div
+    class="text-center"
+    style="
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 50px;
+    "
+>
+    <div
+        style="
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
+                0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            border-radius: 30px;
+            width: 50%;
+            background-color: rgb(33, 37, 41);
+            padding: 100px;
+            padding-bottom: 50px;
+            padding-top: 50px;
+            color: bisque;
+        "
+    >
+        <p
+            style="
+                margin-bottom: 50px;
+                font-size: 30px;
+                font-weight: bold;
+            "
+        >
+            Pool configration
+        </p>
+        <div class="input-group mb-3">
+            <span class="input-group-text" style="width: 582px"
+                >Do you want to delete app data?</span
+            >
+
+            <span class="input-group-text"
+                ><button
+                    id="clear"
+                    class="btn btn-danger"
+                    style="
+                        width: 100%;
+                        height: 40px;
+                        border-radius: 10px;
+                        font-weight: bold;
+                    "
+                >
+                    Delete
+                </button></span
+            >
+        </div>
+
+        <div class="input-group mb-3">
+            <span class="input-group-text" style="width: 592px"
+                >Do you want to clear the content of all
+                memcache nodes in the pool?</span
+            >
+
+            <span class="input-group-text"
+                ><button
+                    id="clear"
+                    class="btn btn-danger"
+                    style="
+                        width: 100%;
+                        height: 40px;
+                        border-radius: 10px;
+                        font-weight: bold;
+                    "
+                >
+                    Clear
+                </button></span
+            >
+        </div>
+
+        <!-- <div>
+            <p
+                style="
+                    margin-bottom: 10px;
+                    font-size: 17.5px;
+                    font-weight: bold;
+                    color: whitesmoke;
+                    text-align: left;
+                "
+            >
+                Selecting between (Manual mode - Automatic mode)
+                for resizing the memcashe
+            </p>
+        </div>
+
+        <div class="input-group mb-3">
+            <select
+                class="form-select"
+                name="replace-policy"
+                required
+            >
+                <option value="1">Manual mode</option>
+                <option value="0" selected>
+                    Automatic mode
+                </option>
+            </select>
+            <input
+                type="number"
+                name="resizing-mode"
+                class="form-control"
+                placeholder=""
+                min="1"
+                max="8"
+                value="{{ size }}"
+                required
+            />
+        </div> -->
+        <div class="input-group mb-3">
+            <span class="input-group-text">
+                <form action="/dec" method="POST">
+                    <button type="submit">-</button>
+                </form>
+            </span>
+            <input
+                type="number"
+                class="form-control"
+                value="{{ number_of_instances }}"
+                disabled
+                readonly
+                style="color: green; font-weight: bold"
+            />
+            <span class="input-group-text">
+                <form action="/inc" method="POST">
+                    <button type="submit">+</button>
+                </form>
+            </span>
+        </div>
+        {% if error %}
+        <p style="color: red; font-weight: bold">Number of instances should be between 1 and 8.</p>
+        {% endif  %}
+    </div>
+</div>
+
+<div
+    class="text-center"
+    style="
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 50px;
+    "
+>
+    <div
+        style="
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
+                0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            border-radius: 30px;
+            width: 50%;
+            background-color: rgb(33, 37, 41);
+            padding: 100px;
+            padding-bottom: 50px;
+            padding-top: 50px;
+            color: bisque;
+        "
+    >
+        <p
+            style="
+                margin-bottom: 50px;
+                font-size: 30px;
+                font-weight: bold;
+            "
+        >
+            Instances configration
+        </p>
+        <form action="/control" method="POST">
+            <div class="input-group mb-3">
+                <span class="input-group-text">Capacity</span>
+                <input
+                    type="number"
+                    class="form-control"
+                    value="45"
+                    disabled
+                    readonly
+                    style="color: green; font-weight: bold"
+                />
+                <span class="input-group-text">MB</span>
+            </div>
+
+            <div class="input-group mb-3">
+                <label class="input-group-text"
+                    >Replace policy</label
+                >
+                <select
+                    class="form-select"
+                    name="replace-policy"
+                    required
+                >
+                    <option value="1">Random Replacement</option>
+                    <option value="0" selected>
+                        Least Recently Used
+                    </option>
+                </select>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
