@@ -47,7 +47,8 @@ def charts():
 @app.route('/manager', methods=['GET', 'POST'])
 def manager():
     if request.method == 'GET':
-        return render_template("manager.html", number_of_instances=number_of_instances), 200
+        size = response["AutoScalingGroups"][0]['DesiredCapacity']
+        return render_template("manager.html", number_of_instances=size), 200
 
 
 @app.route('/inc', methods=['POST'])
@@ -59,7 +60,7 @@ def inc():
         # Do the work
         client.set_desired_capacity(AutoScalingGroupName='imagey_autoscaling_group', DesiredCapacity=number_of_instances+1)
         
-        number_of_instances = response["AutoScalingGroups"][0]['DesiredCapacity']
+        number_of_instances += 1
 
         return render_template("manager.html", number_of_instances=number_of_instances), 200
     
@@ -72,7 +73,7 @@ def dec():
         # Do the work
         client.set_desired_capacity(AutoScalingGroupName='imagey_autoscaling_group', DesiredCapacity=number_of_instances-1)
         
-        number_of_instances = response["AutoScalingGroups"][0]['DesiredCapacity']
+        number_of_instances -= 1
         
         return render_template("manager.html", number_of_instances=number_of_instances), 200
 
