@@ -47,8 +47,7 @@ def charts():
 @app.route('/manager', methods=['GET', 'POST'])
 def manager():
     if request.method == 'GET':
-        size = response["AutoScalingGroups"][0]['DesiredCapacity']
-        return render_template("manager.html", number_of_instances=size), 200
+        return render_template("manager.html", number_of_instances=number_of_instances), 200
 
 
 @app.route('/inc', methods=['POST'])
