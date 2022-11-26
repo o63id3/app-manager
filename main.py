@@ -3,6 +3,7 @@ from db import _USER, _PASSWORD, _HOST, _DATABASE
 
 import pymysql
 from flask import Flask, redirect, render_template, request, url_for
+from aws_keys import access_key_id, secret_access_key
 
 
 HOST = "0.0.0.0"
