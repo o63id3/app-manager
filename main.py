@@ -10,6 +10,9 @@ HOST = "0.0.0.0"
 PORT = 80
 
 
+client = boto3.client('autoscaling', aws_access_key_id=access_key_id, aws_secret_access_key=secret_access_key, region_name='us-east-1')
+
+
 app = Flask(__name__)
 
 
@@ -22,7 +25,15 @@ def connection():
     return conn
 
 
-number_of_instances = 5
+number_of_instances = 1
+
+response = client.describe_auto_scaling_groups(
+    AutoScalingGroupNames=[
+        'imagey_autoscaling_group',
+    ]
+)
+
+number_of_instances = response["AutoScalingGroups"][0]['DesiredCapacity']
 
 
 @app.route('/', methods=['GET'])
@@ -48,9 +59,10 @@ def inc():
         return render_template("manager.html", number_of_instances=number_of_instances, error=True), 401
     else:
         # Do the work
+        client.set_desired_capacity(AutoScalingGroupName='imagey_autoscaling_group', DesiredCapacity=number_of_instances+1)
         
-        
-        number_of_instances += 1
+        number_of_instances = response["AutoScalingGroups"][0]['DesiredCapacity']
+
         return render_template("manager.html", number_of_instances=number_of_instances), 200
     
 @app.route('/dec', methods=['POST'])
@@ -60,9 +72,10 @@ def dec():
         return render_template("manager.html", number_of_instances=number_of_instances, error=True), 401
     else:
         # Do the work
+        client.set_desired_capacity(AutoScalingGroupName='imagey_autoscaling_group', DesiredCapacity=number_of_instances-1)
         
+        number_of_instances = response["AutoScalingGroups"][0]['DesiredCapacity']
         
-        number_of_instances -= 1
         return render_template("manager.html", number_of_instances=number_of_instances), 200
 
 
