@@ -66,5 +66,5 @@ def dec():
 
 
 # app.run(debug=True)
-# app.run(debug=True, port=PORT, host=HOST)
-app.run(debug=True, port=PORT, host=HOST, ssl_context=('cert.pem', 'key.pem'))
+app.run(debug=True, port=PORT, host=HOST)
+# app.run(debug=True, port=PORT, host=HOST, ssl_context=('cert.pem', 'key.pem'))
