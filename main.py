@@ -53,7 +53,7 @@ def manager():
 @app.route('/inc', methods=['POST'])
 def inc():
     global number_of_instances
-    if number_of_instances == 8:
+    if number_of_instances > 7:
         return render_template("manager.html", number_of_instances=number_of_instances, error=True), 401
     else:
         # Do the work
@@ -66,7 +66,7 @@ def inc():
 @app.route('/dec', methods=['POST'])
 def dec():
     global number_of_instances
-    if number_of_instances == 1:
+    if number_of_instances <= 1:
         return render_template("manager.html", number_of_instances=number_of_instances, error=True), 401
     else:
         # Do the work
