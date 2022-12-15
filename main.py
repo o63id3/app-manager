@@ -77,6 +77,6 @@ def dec():
         return render_template("manager.html", number_of_instances=number_of_instances), 200
 
 
-# app.run(debug=True)
-app.run(debug=True, port=PORT, host=HOST)
+app.run(debug=True)
+# app.run(debug=True, port=PORT, host=HOST)
 # app.run(debug=True, port=PORT, host=HOST, ssl_context=('cert.pem', 'key.pem'))
