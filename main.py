@@ -30,8 +30,14 @@ response = client.describe_auto_scaling_groups(
         'imagey_autoscaling_group',
     ]
 )
-
 number_of_instances = response["AutoScalingGroups"][0]['DesiredCapacity']
+
+
+scaling_policy = "Manual"
+max_miss_rate_threshold = 90
+min_miss_rate_threshold = 90
+expand_ratio = 2
+shrink_ratio = 0.5
 
 
 @app.route('/', methods=['GET'])
@@ -62,7 +68,8 @@ def inc():
         number_of_instances += 1
 
         return render_template("manager.html", number_of_instances=number_of_instances), 200
-    
+
+
 @app.route('/dec', methods=['POST'])
 def dec():
     global number_of_instances
@@ -75,6 +82,26 @@ def dec():
         number_of_instances -= 1
         
         return render_template("manager.html", number_of_instances=number_of_instances), 200
+
+
+@app.route('/config', methods=['POST'])
+def set_config():
+    global scaling_policy
+    global max_miss_rate_threshold
+    global min_miss_rate_threshold
+    global expand_ratio
+    global shrink_ratio
+    
+
+
+@app.route('/delete', methods=['POST'])
+def delete_app_data():
+    pass
+
+
+@app.route('/clear', methods=['POST'])
+def clear_memecache():
+    pass
 
 
 app.run(debug=True)

@@ -73,43 +73,17 @@
             >
         </div>
 
-        <!-- <div>
-            <p
-                style="
-                    margin-bottom: 10px;
-                    font-size: 17.5px;
-                    font-weight: bold;
-                    color: whitesmoke;
-                    text-align: left;
-                "
-            >
-                Selecting between (Manual mode - Automatic mode)
-                for resizing the memcashe
-            </p>
-        </div>
+        <form action="" method="POST">
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
+                <label class="form-check-label" for="inlineRadio1">Manual</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
+                <label class="form-check-label" for="inlineRadio2">Automatic</label>
+            </div>
+        </form>
 
-        <div class="input-group mb-3">
-            <select
-                class="form-select"
-                name="replace-policy"
-                required
-            >
-                <option value="1">Manual mode</option>
-                <option value="0" selected>
-                    Automatic mode
-                </option>
-            </select>
-            <input
-                type="number"
-                name="resizing-mode"
-                class="form-control"
-                placeholder=""
-                min="1"
-                max="8"
-                value="{{ size }}"
-                required
-            />
-        </div> -->
         <div class="input-group mb-3">
             <span class="input-group-text">
                 <form action="/dec" method="POST">
