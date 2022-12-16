@@ -21,13 +21,7 @@
             color: bisque;
         "
     >
-        <p
-            style="
-                margin-bottom: 50px;
-                font-size: 30px;
-                font-weight: bold;
-            "
-        >
+        <p style="margin-bottom: 50px; font-size: 30px; font-weight: bold">
             Pool configration
         </p>
         <div class="input-group mb-3">
@@ -73,40 +67,163 @@
             >
         </div>
 
-        <form action="" method="POST">
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
-                <label class="form-check-label" for="inlineRadio1">Manual</label>
+        <form action="/pool-config" method="POST">
+            <div class="mb-3">
+                <div class="form-check form-check-inline" class="input-group mb-3">
+                    <input
+                        class="form-check-input"
+                        type="radio"
+                        name="scalingPolicyOptions"
+                        id="manual"
+                        value="manual"
+                        {% if mode == "manual" %} checked {% endif %}
+                    />
+                    <label class="form-check-label" for="manual">Manual</label>
+                </div>
+    
+                <div class="form-check form-check-inline">
+                    <input
+                        class="form-check-input"
+                        type="radio"
+                        name="scalingPolicyOptions"
+                        id="automatic"
+                        value="automatic"
+                        {% if mode == "automatic" %} checked {% endif %}
+                    />
+                    <label class="form-check-label" for="automatic"
+                        >Automatic</label
+                    >
+                </div>
+    
+                {% if scaling_policy_error_msg %}
+                <p style="color: red; font-weight: bold">
+                    {{ scaling_policy_error_msg }}
+                </p>
+                {% endif %}
             </div>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
-                <label class="form-check-label" for="inlineRadio2">Automatic</label>
+
+            <div id="auto-div" style="display: none" class="mb-3">
+                <div class="mb-3">
+                    <div class="input-group">
+                        <span class="input-group-text">Max miss rate threshold</span>
+                        <input
+                            type="number"
+                            name="max_miss_rate_threshold"
+                            class="form-control"
+                            style="color: red; font-weight: bold"
+                        />
+                        <span class="input-group-text">%</span>
+                    </div>
+                    {% if max_miss_rate_threshold_error_msg %}
+                    <p style="color: red; font-weight: bold" class="mt-1">
+                        {{ max_miss_rate_threshold_error_msg }}
+                    </p>
+                    {% endif %}
+                </div>
+
+                <div class="mb-3">
+                    <div class="input-group">
+                        <span class="input-group-text">Min miss rate threshold</span>
+                        <input
+                            type="number"
+                            name="min_miss_rate_threshold"
+                            class="form-control"
+                            style="color: red; font-weight: bold"
+                        />
+                        <span class="input-group-text">%</span>
+                    </div>
+                    {% if min_miss_rate_threshold_error_msg %}
+                    <p style="color: red; font-weight: bold" class="mt-1">
+                        {{ min_miss_rate_threshold_error_msg }}
+                    </p>
+                    {% endif %}
+                </div>
+
+                <div class="mb-3">
+                    <div class="input-group">
+                        <span class="input-group-text">Expand ratio</span>
+                        <input
+                            type="number"
+                            name="expand_ratio"
+                            class="form-control"
+                            style="color: red; font-weight: bold"
+                        />
+                    </div>
+                    {% if expand_ratio_error_msg %}
+                    <p style="color: red; font-weight: bold" class="mt-1">
+                        {{ expand_ratio_error_msg }}
+                    </p>
+                    {% endif %}
+                </div>
+
+                <div class="mb-3">
+                    <div class="input-group">
+                        <span class="input-group-text">Shrink ratio</span>
+                        <input
+                            type="number"
+                            step="0.01"
+                            name="shrink_ratio"
+                            class="form-control"
+                            style="color: red; font-weight: bold"
+                        />
+                    </div>
+                    {% if shrink_ratio_error_msg %}
+                    <p style="color: red; font-weight: bold" class="mt-1">
+                        {{ shrink_ratio_error_msg }}
+                    </p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="image mb-3">
+                <button
+                    type="submit"
+                    style="
+                        width: 100%;
+                        height: 40px;
+                        border-radius: 10px;
+                        background-color: bisque;
+                        font-weight: bold;
+                    "
+                    id="outerSubmit"
+                >
+                    Submit
+                </button>
             </div>
         </form>
 
-        <div class="input-group mb-3">
-            <span class="input-group-text">
-                <form action="/dec" method="POST">
-                    <button type="submit">-</button>
-                </form>
-            </span>
-            <input
-                type="number"
-                class="form-control"
-                value="{{ number_of_instances }}"
-                disabled
-                readonly
-                style="color: green; font-weight: bold"
-            />
-            <span class="input-group-text">
-                <form action="/inc" method="POST">
-                    <button type="submit">+</button>
-                </form>
-            </span>
+        {% if mode == "manual" %}
+        <div id="manual-div" class="mb-3">
+            <div class="mb-3">
+                <div class="input-group">
+                    <span class="input-group-text">
+                        <form action="/dec" method="POST">
+                            <button type="submit">-</button>
+                        </form>
+                    </span>
+                    <input
+                        type="number"
+                        class="form-control"
+                        value="{{ number_of_instances }}"
+                        disabled
+                        readonly
+                        style="color: green; font-weight: bold"
+                    />
+                    <span class="input-group-text">
+                        <form action="/inc" method="POST">
+                            <button type="submit">+</button>
+                        </form>
+                    </span>
+                </div>
+                {% if error %}
+                <p style="color: red; font-weight: bold">
+                    Number of instances should be between 1 and 8.
+                </p>
+                {% endif %}
+            </div>
         </div>
-        {% if error %}
-        <p style="color: red; font-weight: bold">Number of instances should be between 1 and 8.</p>
-        {% endif  %}
+        {% endif %}
+        
     </div>
 </div>
 
@@ -132,45 +249,81 @@
             color: bisque;
         "
     >
-        <p
-            style="
-                margin-bottom: 50px;
-                font-size: 30px;
-                font-weight: bold;
-            "
-        >
+        <p style="margin-bottom: 50px; font-size: 30px; font-weight: bold">
             Instances configration
         </p>
-        <form action="/control" method="POST">
+        <form action="/instances-config" method="POST">
             <div class="input-group mb-3">
-                <span class="input-group-text">Capacity</span>
                 <input
                     type="number"
+                    name="cache-size"
                     class="form-control"
-                    value="45"
-                    disabled
-                    readonly
-                    style="color: green; font-weight: bold"
+                    placeholder="Cache size"
+                    min="1"
+                    max="4096"
+                    value="{{ size }}"
+                    required
                 />
                 <span class="input-group-text">MB</span>
             </div>
 
             <div class="input-group mb-3">
-                <label class="input-group-text"
-                    >Replace policy</label
-                >
-                <select
-                    class="form-select"
-                    name="replace-policy"
-                    required
-                >
+                <label class="input-group-text">Replace policy</label>
+                <select class="form-select" name="replace-policy" required>
+                    {% if replace_policy =="LRU" %}
                     <option value="1">Random Replacement</option>
-                    <option value="0" selected>
-                        Least Recently Used
-                    </option>
+                    <option value="0" selected>Least Recently Used</option>
+                    {% else %}
+                    <option value="1" selected>Random Replacement</option>
+                    <option value="0">Least Recently Used</option>
+                    {% endif %}
                 </select>
+            </div>
+
+            <div class="mb-3">
+                <button
+                    type="submit"
+                    style="
+                        width: 100%;
+                        height: 40px;
+                        border-radius: 10px;
+                        background-color: bisque;
+                        font-weight: bold;
+                    "
+                >
+                    Submit
+                </button>
             </div>
         </form>
     </div>
 </div>
+
+<script>
+    const manual = document.getElementById('manual-div');
+    const auto = document.getElementById('auto-div');
+
+    function handleRadioClick() {
+        // if (document.getElementById('manual').checked) {
+        //     manual.style.display = 'block';
+        // } else {
+        //     manual.style.display = 'none';
+        // }
+
+        if (document.getElementById('automatic').checked) {
+            auto.style.display = 'block';
+        } else {
+            auto.style.display = 'none';
+        }
+    }
+
+    const radioButtons = document.querySelectorAll('input[name="scalingPolicyOptions"]');
+    radioButtons.forEach(radio => {
+        radio.addEventListener('click', handleRadioClick);
+    });
+
+    window.onload = function exampleFunction() {
+        handleRadioClick();
+    }
+</script>
+
 {% endblock %}
