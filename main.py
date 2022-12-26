@@ -11,7 +11,7 @@ HOST = "0.0.0.0"
 PORT = 80
 
 
-# client = boto3.client('autoscaling', aws_access_key_id=access_key_id, aws_secret_access_key=secret_access_key, region_name='us-east-1')
+client = boto3.client('autoscaling', aws_access_key_id=access_key_id, aws_secret_access_key=secret_access_key, region_name='us-east-1')
 
 
 app = Flask(__name__)
@@ -26,13 +26,12 @@ def connection():
     return conn
 
 
-# response = client.describe_auto_scaling_groups(
-#     AutoScalingGroupNames=[
-#         'imagey_autoscaling_group',
-#     ]
-# )
-# number_of_instances = response["AutoScalingGroups"][0]['DesiredCapacity']
-number_of_instances = 0
+response = client.describe_auto_scaling_groups(
+    AutoScalingGroupNames=[
+        'imagey_autoscaling_group',
+    ]
+)
+number_of_instances = response["AutoScalingGroups"][0]['DesiredCapacity']
 
 
 scaling_policy = "manual"
@@ -64,7 +63,7 @@ def charts():
     return render_template('charts.html'), 200
 
 
-@app.route('/manager', methods=['GET', 'POST'])
+@app.route('/manager', methods=['GET'])
 def manager():
     if request.method == 'GET':
         return render_template("manager.html", number_of_instances=number_of_instances, mode=scaling_policy, ), 200
@@ -76,7 +75,6 @@ def inc():
     if number_of_instances > 7:
         return render_template("manager.html", number_of_instances=number_of_instances, mode=scaling_policy, error=True), 401
     else:
-        # Do the work
         client.set_desired_capacity(AutoScalingGroupName='imagey_autoscaling_group', DesiredCapacity=number_of_instances+1)
         
         number_of_instances += 1
@@ -90,7 +88,6 @@ def dec():
     if number_of_instances <= 1:
         return render_template("manager.html", number_of_instances=number_of_instances, mode=scaling_policy, error=True), 401
     else:
-        # Do the work
         client.set_desired_capacity(AutoScalingGroupName='imagey_autoscaling_group', DesiredCapacity=number_of_instances-1)
         
         number_of_instances -= 1
@@ -98,6 +95,7 @@ def dec():
         return render_template("manager.html", number_of_instances=number_of_instances, mode=scaling_policy, ), 200
 
 
+#! not ready
 @app.route('/pool-config', methods=['POST'])
 def pool_config():
     global scaling_policy
@@ -133,16 +131,18 @@ def pool_config():
     return render_template("manager.html", number_of_instances=number_of_instances, mode=scaling_policy, ), 200
 
 
+#! not ready
 @app.route('/instances-config', methods=['POST'])
 def instances_config():
     pass
 
-
+#! not ready
 @app.route('/delete', methods=['POST'])
 def delete_app_data():
     pass
 
 
+#! not ready
 @app.route('/clear', methods=['POST'])
 def clear_memecache():
     pass
