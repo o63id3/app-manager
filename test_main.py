@@ -89,3 +89,5 @@ def test_dec_failure(client):
     # no ins = 1
     response = client.post("/dec")
     assert response.status_code == 401
+    
+    autoscaling_clinet.set_desired_capacity(AutoScalingGroupName='imagey_autoscaling_group', DesiredCapacity=0)
