@@ -44,13 +44,15 @@ def test_show_manager_page(client):
 
 # * Test inc success
 def test_inc_success(client):
-    autoscaling_clinet.set_desired_capacity(AutoScalingGroupName='imagey_autoscaling_group', DesiredCapacity=7)
+    autoscaling_clinet.set_desired_capacity(AutoScalingGroupName='imagey_autoscaling_group', DesiredCapacity=4)
     
     response = client.post("/inc")
     assert response.status_code == 200
 
 # * Test inc failure
 def test_inc_failure(client):
+    autoscaling_clinet.set_desired_capacity(AutoScalingGroupName='imagey_autoscaling_group', DesiredCapacity=8)
+    
     response = client.post("/inc")
     assert response.status_code == 401
 
