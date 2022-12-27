@@ -1,5 +1,6 @@
 import pytest
 import boto3
+from aws_keys import access_key_id, secret_access_key
 
 
 autoscaling_clinet = boto3.client('autoscaling', aws_access_key_id=access_key_id, aws_secret_access_key=secret_access_key, region_name='us-east-1')
@@ -7,7 +8,6 @@ autoscaling_clinet.set_desired_capacity(AutoScalingGroupName='imagey_autoscaling
 
 
 import main
-from aws_keys import access_key_id, secret_access_key
 
 
 @pytest.fixture()
